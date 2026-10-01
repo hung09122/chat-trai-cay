@@ -15,7 +15,7 @@
 </head>
 <body>
 {
-            background: #020408;
+            background: #020307;
             color: #fff;
             display: flex;
             flex-direction: column;
@@ -26,28 +26,29 @@
         }
         h1 {
             font-size: 1.2rem;
-            margin-bottom: 4px;
-            background: linear-gradient(45deg, #ff3366, #ffcc00, #00ffcc, #cc33ff);
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, #ff3366, #ffcc00, #00ffcc, #bf00ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            font-weight: 900;
         }
         #game-container {
             position: relative;
-            width: 400px;
+            width: 750px;
             height: 600px;
-            background: #0b0f19;
-            border: 4px solid #1f293d;
+            background: #0d131f;
+            border: 4px solid #1e293b;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 0 40px rgba(0, 255, 204, 0.15), 0 25px 50px rgba(0,0,0,0.9);
+            box-shadow: 0 0 80px rgba(191, 0, 255, 0.2), 0 30px 60px rgba(0,0,0,0.9);
             cursor: crosshair;
         }
         canvas {
             display: block;
-            background: radial-gradient(circle, #182238 0%, #070a12 100%);
+            background: radial-gradient(circle at center, #1b263b 0%, #060911 100%);
         }
 
         .ui-screen {
@@ -56,8 +57,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(7, 10, 18, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
-            backdrop-filter: blur(8px);
+            background: linear-gradient(135deg, rgba(7, 10, 18, 0.97) 0%, rgba(15, 23, 42, 0.99) 100%);
+            backdrop-filter: blur(12px);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -66,179 +67,116 @@
             padding: 25px;
             z-index: 10;
         }
-
         .logo-badge {
-            font-size: 3rem;
-            margin-bottom: 5px;
+            font-size: 3.2rem;
+            margin-bottom: 8px;
             animation: floatLogo 2s ease-in-out infinite alternate;
-            filter: drop-shadow(0 0 15px rgba(255, 204, 0, 0.5));
+            filter: drop-shadow(0 0 25px rgba(255, 204, 0, 0.7));
         }
-
         @keyframes floatLogo {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-8px); }
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-8px) scale(1.06); }
         }
-
         .ui-screen h2 {
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             margin-bottom: 6px;
-            background: linear-gradient(45deg, #ffcc00, #ff3366);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #ffcc00;
+            text-shadow: 0 2px 10px rgba(255, 204, 0, 0.4);
         }
-
         .ui-screen p {
             margin-bottom: 16px;
             color: #94a3b8;
-            font-size: 0.78rem;
+            font-size: 0.88rem;
             line-height: 1.5;
-            max-width: 320px;
-        }
-
-        .section-title {
-            font-size: 0.72rem;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 8px;
-            font-weight: bold;
+            max-width: 420px;
         }
 
         .blade-selector {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             margin-bottom: 20px;
         }
-
         .blade-btn {
-            background: rgba(30, 41, 59, 0.7);
+            background: #1e293b;
             border: 2px solid #334155;
-            color: #cbd5e1;
-            padding: 8px 12px;
+            color: #fff;
+            padding: 8px 14px;
             border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: bold;
             cursor: pointer;
-            font-size: 0.75rem;
-            font-weight: 600;
-            transition: all 0.25s ease;
+            transition: all 0.2s;
         }
-
         .blade-btn.active {
             border-color: #00ffcc;
             background: rgba(0, 255, 204, 0.15);
-            color: #fff;
-            box-shadow: 0 0 12px rgba(0, 255, 204, 0.4);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
         }
 
         .btn {
             background: linear-gradient(135deg, #ff3366 0%, #ff9900 100%);
             color: #fff;
             border: none;
-            padding: 12px 32px;
+            padding: 12px 36px;
             font-size: 1rem;
             font-weight: 800;
-            border-radius: 30px;
+            border-radius: 35px;
             cursor: pointer;
-            box-shadow: 0 6px 20px rgba(255, 51, 102, 0.4);
+            box-shadow: 0 8px 25px rgba(255, 51, 102, 0.5);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: transform 0.2s;
+            letter-spacing: 1.5px;
+            transition: all 0.2s ease;
         }
-        .btn:hover { transform: scale(1.05); }
+        .btn:hover { transform: scale(1.08); box-shadow: 0 10px 30px rgba(255, 51, 102, 0.7); }
 
         #scoreboard {
             position: absolute;
-            top: 12px;
-            left: 15px;
-            right: 15px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.92rem;
-            font-weight: bold;
-            z-index: 5;
-            pointer-events: none;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+            top: 15px; left: 20px; right: 20px;
+            display: flex; justify-content: space-between;
+            font-size: 1.1rem; font-weight: bold; z-index: 5; pointer-events: none;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
         }
-        .lives { color: #ff3366; }
-        
-        #rage-container {
-            position: absolute;
-            top: 36px;
-            left: 15px;
-            right: 15px;
-            height: 5px;
-            background: #1e293b;
-            border-radius: 3px;
-            overflow: hidden;
-            z-index: 5;
-            border: 1px solid #334155;
-        }
-        #rage-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #00ffcc, #cc33ff);
-            transition: width 0.1s;
-        }
-        #active-effects {
-            position: absolute;
-            top: 46px;
-            left: 15px;
-            font-size: 0.7rem;
-            color: #00ffcc;
-            z-index: 5;
-            pointer-events: none;
-            font-weight: bold;
-        }
+        .lives { color: #ff3366; font-size: 1.2rem; }
         #combo-popup {
-            position: absolute;
-            top: 75px;
-            width: 100%;
-            text-align: center;
-            font-size: 1.3rem;
-            font-weight: 900;
-            color: #00ffcc;
-            text-shadow: 0 0 12px rgba(0, 255, 204, 0.9);
-            z-index: 6;
-            pointer-events: none;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: absolute; top: 75px; width: 100%; text-align: center;
+            font-size: 1.8rem; font-weight: 900; color: #ffcc00;
+            text-shadow: 0 0 20px rgba(255, 204, 0, 0.9);
+            z-index: 6; pointer-events: none; opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.4);
         }
     </style>
 </head>
 <body>
 
-    <h1>🍉 Fruit Ninja: Classic Arcade</h1>
+    <h1>⚔️ Fruit Ninja: Ultimate Chaos & Blade Masters 🌟</h1>
     
     <div id="game-container">
         <div id="scoreboard">
-            <div>Điểm: <span id="score">0</span> | Kỷ lục: <span id="highscore">0</span></div>
-            <div class="lives">Mạng: <span id="lives">❤️❤️❤️</span></div>
+            <div>Điểm: <span id="score" style="color:#00ffcc;">0</span> | Kỷ lục: <span id="highscore" style="color:#ffcc00;">0</span></div>
+            <div class="lives"><span id="lives">❤️❤️❤️</span></div>
         </div>
-        <div id="rage-container"><div id="rage-bar"></div></div>
-        <div id="active-effects"></div>
         <div id="combo-popup"></div>
 
-        <canvas id="gameCanvas" width="400" height="600"></canvas>
+        <canvas id="gameCanvas" width="750" height="600"></canvas>
 
         <div id="start-screen" class="ui-screen">
-            <div class="logo-badge">⚔️️🍉</div>
-            <h2>Fruit Ninja Arcade</h2>
-            <p>Vuốt/chém trái cây, tránh bom 💣. Đầy thanh nộ bấm <b>SPACE</b> dùng Super Nova!</p>
-            
-            <div class="section-title">Chọn phong cách kiếm</div>
+            <div class="logo-badge">⚔️️🔥</div>
+            <h2>Chọn Lưỡi Kiếm Huyền Thoại</h2>
             <div class="blade-selector">
-                <button class="blade-btn active" onclick="setBlade('neon', this)">⚡ Neon Xanh</button>
-                <button class="blade-btn" onclick="setBlade('fire', this)">🔥 Kiếm Lửa</button>
-                <button class="blade-btn" onclick="setBlade('plasma', this)">💎 Plasma Tím</button>
+                <button class="blade-btn active" onclick="setBlade('neon', this)">⚡ Neon Cyan</button>
+                <button class="blade-btn" onclick="setBlade('inferno', this)">🔥 Inferno</button>
+                <button class="blade-btn" onclick="setBlade('void', this)">💜 Void Stalker</button>
+                <button class="blade-btn" onclick="setBlade('rainbow', this)">🌈 Rainbow</button>
             </div>
-
-            <button class="btn" onclick="startGame()">BẮT ĐẦU CHƠI</button>
+            <p>Trải nghiệm Chuối Cuồng Nộ (Frenzy), Dừa Giáp Cứng, chém Kritical và hiệu ứng hỗn chiến tối thượng!</p>
+            <button class="btn" onclick="startGame()">VÀO TRẬN CHIẾN</button>
         </div>
 
         <div id="gameover-screen" class="ui-screen" style="display: none;">
             <div class="logo-badge">💥</div>
             <h2>GAME OVER</h2>
-            <p>Điểm: <span id="final-score" style="color:#fff; font-weight:bold;">0</span><br>Kỷ lục: <span id="final-highscore" style="color:#ffcc00; font-weight:bold;">0</span></p>
+            <p>Điểm số đạt được: <span id="final-score" style="color:#fff; font-size:1.3rem; font-weight:bold;">0</span><br>Kỷ lục cao nhất: <span id="final-highscore" style="color:#ffcc00; font-size:1.3rem; font-weight:bold;">0</span></p>
             <button class="btn" onclick="startGame()">CHƠI LẠI</button>
         </div>
     </div>
@@ -246,7 +184,6 @@
     <script>
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
-        const container = document.getElementById("game-container");
 
         let currentBlade = 'neon';
         function setBlade(type, btn) {
@@ -261,79 +198,67 @@
                 if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 let osc = audioCtx.createOscillator();
                 let gain = audioCtx.createGain();
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-
+                osc.connect(gain); gain.connect(audioCtx.destination);
                 if (type === 'slice') {
                     osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.07);
+                    osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1400, audioCtx.currentTime + 0.08);
                     gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.07);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.07);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.08);
+                } else if (type === 'crit') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(900, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1800, audioCtx.currentTime + 0.12);
+                    gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.12);
+                } else if (type === 'frenzy') {
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                    osc.frequency.linearRampToValueAtTime(800, audioCtx.currentTime + 0.3);
+                    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.3);
                 } else if (type === 'bomb') {
                     osc.type = 'sawtooth';
                     osc.frequency.setValueAtTime(120, audioCtx.currentTime);
-                    osc.frequency.linearRampToValueAtTime(20, audioCtx.currentTime + 0.45);
+                    osc.frequency.linearRampToValueAtTime(20, audioCtx.currentTime + 0.5);
                     gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.45);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.45);
-                } else if (type === 'nova') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(250, audioCtx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(1300, audioCtx.currentTime + 0.5);
-                    gain.gain.setValueAtTime(0.6, audioCtx.currentTime);
                     gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.5);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.5);
                 }
             } catch(e) {}
         }
 
-        let score = 0;
-        let highscore = localStorage.getItem("fruit_ninja_hs") || 0;
+        let score = 0, highscore = localStorage.getItem("fruit_ninja_chaos_hs") || 0;
         document.getElementById("highscore").innerText = highscore;
 
         let lives = 3, isPlaying = false;
-        let fruits = [], halvedFruits = [], juiceDrops = [], splashes = [], sliceTrail = [];
-        let spawnTimer = 0, doublePointsTimer = 0, freezeTimer = 0, frenzyTimer = 0;
-        let superNovaFlash = 0, screenShakeTimer = 0, hitStopFrames = 0, rageEnergy = 0;
+        let fruits = [], halvedFruits = [], juiceSplashes = [], sliceTrail = [], fxRings = [], debrisList = [];
+        let spawnTimer = 0, hitStopFrames = 0, screenShakeFrames = 0, flashAlpha = 0;
+        let frenzyTimer = 0, slowMoFrames = 0;
 
         const fruitTypes = [
-            { emoji: '🍉', radius: 34, points: 1, juice: '#ff3344' },
-            { emoji: '🍎', radius: 27, points: 1, juice: '#ffcc00' },
-            { emoji: '🍊', radius: 29, points: 2, juice: '#ff8800' },
-            { emoji: '🍇', radius: 25, points: 3, juice: '#9933ff' },
-            { emoji: '🍌❄️', radius: 30, isFreeze: true, juice: '#e0f7fc' },
-            { emoji: '🍍✨', radius: 31, isDouble: true, juice: '#ffeb3b' },
-            { emoji: '💥🌟', radius: 33, isNova: true, juice: '#00e5ff' },
-            { emoji: '💣', radius: 30, isBomb: true }
+            { type: 'watermelon', radius: 36, points: 1, outer: '#1b4332', inner: '#d90429', seed: '#111' },
+            { type: 'apple', radius: 28, points: 1, outer: '#d90429', inner: '#ffb703', seed: '#3d2314' },
+            { type: 'orange', radius: 30, points: 2, outer: '#f77f00', inner: '#fcbf49', seed: '#fff' },
+            { type: 'coconut', radius: 32, points: 3, outer: '#4a2e1b', inner: '#fff', seed: '#b5838d', armor: 2 }, // Cần chém 2 lần
+            { type: 'banana', radius: 25, points: 5, outer: '#e9c46a', inner: '#f4a261', seed: '#fff', isFrenzy: true }, // Chuối cuồng nộ
+            { type: 'bomb', radius: 28, isBomb: true }
         ];
 
         let isDragging = false;
-
         function addPoint(x, y) {
-            sliceTrail.push({ x, y, alpha: 1 });
-            if (sliceTrail.length > 12) sliceTrail.shift();
+            sliceTrail.push({ x, y, alpha: 1, blade: currentBlade });
+            if (sliceTrail.length > 15) sliceTrail.shift();
         }
-
-        window.addEventListener("keydown", (e) => {
-            if (e.code === "Space" && isPlaying && rageEnergy >= 100) {
-                triggerSuperNova();
-                rageEnergy = 0;
-                document.getElementById("rage-bar").style.width = "0%";
-                e.preventDefault();
-            }
-        });
 
         canvas.addEventListener("mousedown", (e) => {
             isDragging = true;
             let rect = canvas.getBoundingClientRect();
             addPoint(e.clientX - rect.left, e.clientY - rect.top);
         });
-
         canvas.addEventListener("mousemove", (e) => {
             if (!isDragging || !isPlaying) return;
             let rect = canvas.getBoundingClientRect();
@@ -341,61 +266,41 @@
             addPoint(x, y);
             checkSlice(x, y);
         });
-
-        window.addEventListener("mouseup", () => { isDragging = false; sliceTrail = []; });
+        window.addEventListener("mouseup", () => { isDragging = false; });
 
         canvas.addEventListener("touchstart", (e) => {
             isDragging = true;
             let rect = canvas.getBoundingClientRect();
             let x = e.touches[0].clientX - rect.left, y = e.touches[0].clientY - rect.top;
-            addPoint(x, y);
-            e.preventDefault();
+            addPoint(x, y); e.preventDefault();
         });
-
         canvas.addEventListener("touchmove", (e) => {
             if (!isDragging || !isPlaying) return;
             let rect = canvas.getBoundingClientRect();
             let x = e.touches[0].clientX - rect.left, y = e.touches[0].clientY - rect.top;
-            addPoint(x, y);
-            checkSlice(x, y);
-            e.preventDefault();
+            addPoint(x, y); checkSlice(x, y); e.preventDefault();
         });
-
-        canvas.addEventListener("touchend", () => { isDragging = false; sliceTrail = []; });
+        canvas.addEventListener("touchend", () => { isDragging = false; });
 
         function startGame() {
             document.getElementById("start-screen").style.display = "none";
             document.getElementById("gameover-screen").style.display = "none";
-            score = 0; lives = 3; fruits = []; halvedFruits = []; juiceDrops = []; splashes = [];
-            spawnTimer = 0; doublePointsTimer = 0; freezeTimer = 0; frenzyTimer = 0;
-            superNovaFlash = 0; screenShakeTimer = 0; hitStopFrames = 0; rageEnergy = 0;
-            document.getElementById("rage-bar").style.width = "0%";
+            score = 0; lives = 3; fruits = []; halvedFruits = []; juiceSplashes = []; fxRings = []; debrisList = [];
+            spawnTimer = 0; hitStopFrames = 0; screenShakeFrames = 0; flashAlpha = 0;
+            frenzyTimer = 0; slowMoFrames = 0;
             isPlaying = true;
             updateLivesUI();
             loop();
         }
 
-        function triggerSuperNova() {
-            playSound('nova');
-            superNovaFlash = 25; screenShakeTimer = 20;
-            fruits.forEach(f => {
-                if (!f.sliced && !f.isBomb) {
-                    f.sliced = true;
-                    score += (f.points || 1) * 3;
-                    createJuiceExplosion(f.x, f.y, f.juice || '#ff3366');
-                    createHalved(f.x, f.y, f.emoji, f.juice || '#ff3366');
-                }
-            });
-            showCombo("💥 SUPER NOVA ULTIMATE! 💥");
-        }
-
         function gameOver() {
             isPlaying = false;
             playSound('bomb');
-            screenShakeTimer = 30;
+            screenShakeFrames = 25;
+            flashAlpha = 0.85;
             if (score > highscore) {
                 highscore = score;
-                localStorage.setItem("fruit_ninja_hs", highscore);
+                localStorage.setItem("fruit_ninja_chaos_hs", highscore);
                 document.getElementById("highscore").innerText = highscore;
             }
             document.getElementById("final-score").innerText = score;
@@ -404,243 +309,308 @@
         }
 
         function updateLivesUI() {
-            let h = ""; for (let i = 0; i < lives; i++) h += "❤️";
+            let h = ""; for (let i = 0; i < lives; i++) h += "❤";
             document.getElementById("lives").innerText = h;
         }
 
-        function showCombo(text) {
+        function showPopup(text, color = "#ffcc00") {
             let el = document.getElementById("combo-popup");
             el.innerText = text;
+            el.style.color = color;
             el.style.opacity = "1";
-            el.style.transform = "scale(1.2)";
-            setTimeout(() => { el.style.opacity = "0"; el.style.transform = "scale(0.8)"; }, 900);
+            el.style.transform = "scale(1.4)";
+            setTimeout(() => { el.style.opacity = "0"; el.style.transform = "scale(0.8)"; }, 700);
         }
 
         function spawnFruit() {
-            let t = fruitTypes[Math.floor(Math.random() * fruitTypes.length)];
-            if ((t.isBomb || t.isFreeze || t.isDouble || t.isNova) && Math.random() > 0.35) t = fruitTypes[0];
-            let x = Math.random() * (canvas.width - 100) + 50;
-            let vx = (canvas.width / 2 - x) * 0.02 + (Math.random() - 0.5) * 2;
-            let vy = -Math.random() * 4 - 11;
-            if (frenzyTimer > 0) vy -= 3;
-            fruits.push({ x, y: canvas.height + 40, vx, vy, gravity: 0.35, ...t, sliced: false });
+            let template = fruitTypes[Math.floor(Math.random() * fruitTypes.length)];
+            if (template.isBomb && Math.random() > 0.22) template = fruitTypes[0];
+            
+            let x = Math.random() * (canvas.width - 160) + 80;
+            let vx = (canvas.width / 2 - x) * 0.02 + (Math.random() - 0.5) * 4;
+            let vy = -Math.random() * 4 - (frenzyTimer > 0 ? 14 : 12);
+            fruits.push({ x, y: canvas.height + 50, vx, vy, gravity: 0.38, ...template, sliced: false, rotation: Math.random() * Math.PI, armor: template.armor || 1 });
         }
 
-        // --- HỆ THỐNG HIỆU ỨNG CẮT CHUẨN XỊN (FRUIT NINJA STYLE) ---
-        function createJuiceExplosion(x, y, juiceColor) {
-            // Hạt nước trái cây văng hướng tâm
-            for (let i = 0; i < 20; i++) {
-                juiceDrops.push({
-                    x, y,
-                    vx: (Math.random() - 0.5) * 14,
-                    vy: (Math.random() - 0.5) * 14,
-                    radius: Math.random() * 5 + 2,
-                    color: juiceColor,
-                    alpha: 1,
-                    gravity: 0.45
+        function createEffects(x, y, color, isCrit) {
+            let ringColor = '#00ffcc';
+            if (currentBlade === 'inferno') ringColor = '#ff3300';
+            if (currentBlade === 'void') ringColor = '#bf00ff';
+            if (currentBlade === 'rainbow') ringColor = '#ff00aa';
+
+            fxRings.push({ x, y, radius: 10, maxRadius: isCrit ? 100 : 60, alpha: 1, color: ringColor });
+
+            for (let i = 0; i < 28; i++) {
+                juiceSplashes.push({
+                    x, y, vx: (Math.random() - 0.5) * 18, vy: (Math.random() - 0.5) * 18,
+                    radius: Math.random() * 5 + 2, color, alpha: 1, gravity: 0.42, isDrop: true
                 });
             }
-            // Vệt nhựa trái cây bám trên kính màn hình
-            for (let i = 0; i < 3; i++) {
-                splashes.push({
-                    x: x + (Math.random() - 0.5) * 40,
-                    y: y + (Math.random() - 0.5) * 40,
-                    radius: Math.random() * 14 + 6,
-                    color: juiceColor,
-                    alpha: 0.75
+            for (let i = 0; i < 5; i++) {
+                juiceSplashes.push({
+                    x: x + (Math.random() - 0.5) * 60, y: y + (Math.random() - 0.5) * 60,
+                    radius: Math.random() * 14 + 8, color, alpha: 0.75, isDrop: false
+                });
+            }
+            for (let i = 0; i < 12; i++) {
+                debrisList.push({
+                    x, y, vx: (Math.random() - 0.5) * 14, vy: (Math.random() - 0.5) * 14,
+                    size: Math.random() * 6 + 2, color: Math.random() > 0.4 ? color : ringColor, alpha: 1, gravity: 0.5
                 });
             }
         }
 
-        function createHalved(x, y, emoji, juiceColor) {
-            halvedFruits.push({ x, y, vx: -4.5, vy: -5.5, gravity: 0.45, rotation: 0, vRot: -0.2, emoji, juiceColor, alpha: 1 });
-            halvedFruits.push({ x, y, vx: 4.5, vy: -5.5, gravity: 0.45, rotation: 0, vRot: 0.2, emoji, juiceColor, alpha: 1 });
+        function createHalvedFruit(f) {
+            halvedFruits.push({
+                x: f.x, y: f.y, vx: -6, vy: -6.5, gravity: 0.42,
+                rotation: f.rotation, vRot: -0.22, ...f, side: 'left', alpha: 1
+            });
+            halvedFruits.push({
+                x: f.x, y: f.y, vx: 6, vy: -6.5, gravity: 0.42,
+                rotation: f.rotation, vRot: 0.22, ...f, side: 'right', alpha: 1
+            });
         }
 
         function checkSlice(x, y) {
-            let sliced = 0;
+            let slicedCount = 0;
+            let hasCrit = false;
+
             fruits.forEach(f => {
                 if (!f.sliced) {
                     let dist = Math.hypot(f.x - x, f.y - y);
-                    if (dist < f.radius + 20) {
-                        f.sliced = true;
-                        sliced++;
+                    if (dist < f.radius + 18) {
                         if (f.isBomb) {
                             lives = 0; updateLivesUI(); gameOver();
-                        } else {
+                        } else if (f.armor > 1) {
+                            // Dừa giáp cứng cần chém tiếp
+                            f.armor--;
                             playSound('slice');
-                            createJuiceExplosion(f.x, f.y, f.juice || '#ff3344');
-                            createHalved(f.x, f.y, f.emoji, f.juice || '#ff3344');
-                            hitStopFrames = 3; // Khựng lực tạo cảm giác chém sắc
+                            createEffects(f.x, f.y, '#b5838d', false);
+                            hitStopFrames = 2;
+                            screenShakeFrames = 4;
+                            showPopup("🥥 GIÁP VỠ!", "#fff");
+                        } else {
+                            f.sliced = true;
+                            slicedCount++;
+                            let isCrit = Math.random() < 0.22;
+                            if (isCrit) hasCrit = true;
 
-                            let pts = f.points || 1;
-                            if (doublePointsTimer > 0) pts *= 2;
-
-                            if (f.isFreeze) { freezeTimer = 300; showCombo("❄️ ĐÓNG BĂNG!"); }
-                            else if (f.isDouble) { doublePointsTimer = 300; showCombo("🍍 x2 ĐIỂM SỐ!"); }
-                            else if (f.isNova) { triggerSuperNova(); }
-
-                            score += pts;
-                            if (rageEnergy < 100) {
-                                rageEnergy = Math.min(100, rageEnergy + 8);
-                                document.getElementById("rage-bar").style.width = rageEnergy + "%";
-                                if (rageEnergy === 100) showCombo("⚡ NỘ ĐẦY! BẤM SPACE!");
+                            if (f.isFrenzy) {
+                                frenzyTimer = 300; // 5 giây cuồng nộ
+                                slowMoFrames = 120;
+                                playSound('frenzy');
+                                showPopup("🍌 BANANA FRENZY!", "#ffcc00");
+                            } else {
+                                playSound(isCrit ? 'crit' : 'slice');
                             }
+
+                            createEffects(f.x, f.y, f.inner, isCrit);
+                            createHalvedFruit(f);
+                            hitStopFrames = isCrit ? 6 : 3;
+                            screenShakeFrames = isCrit ? 14 : 6;
+                            flashAlpha = isCrit ? 0.45 : 0.15;
+
+                            score += isCrit ? f.points * 5 : f.points;
+                            if (isCrit) showPopup("⚡ CRITICAL! +X5", "#ff3366");
                         }
                     }
                 }
             });
 
-            if (sliced >= 2 && sliced < 4) {
-                showCombo(`🔥 COMBO x${sliced}!`);
-                score += sliced * 2;
-                rageEnergy = Math.min(100, rageEnergy + 6);
-                document.getElementById("rage-bar").style.width = rageEnergy + "%";
-            } else if (sliced >= 4) {
-                showCombo(`👑 LEGENDARY x${sliced}!!`);
-                score += sliced * 5;
-                rageEnergy = Math.min(100, rageEnergy + 15);
-                document.getElementById("rage-bar").style.width = rageEnergy + "%";
+            if (slicedCount >= 2 && !hasCrit) {
+                showPopup(`🔥 COMBO x${slicedCount}!`);
+                score += slicedCount * 4;
             }
         }
 
         function update() {
             if (!isPlaying) return;
+            if (slowMoFrames > 0) slowMoFrames--;
             if (hitStopFrames > 0) { hitStopFrames--; return; }
 
-            if (freezeTimer > 0) freezeTimer--;
-            if (doublePointsTimer > 0) doublePointsTimer--;
             if (frenzyTimer > 0) frenzyTimer--;
-            if (superNovaFlash > 0) superNovaFlash--;
-            if (screenShakeTimer > 0) screenShakeTimer--;
 
-            if (screenShakeTimer > 0) {
-                container.style.transform = `translate(${(Math.random()-0.5)*8}px, ${(Math.random()-0.5)*8}px)`;
-            } else {
-                container.style.transform = `translate(0, 0)`;
-            }
-
-            let eff = "";
-            if (freezeTimer > 0) eff += `❄️ Đóng băng: ${(freezeTimer/60).toFixed(1)}s  `;
-            if (doublePointsTimer > 0) eff += `🍍 x2: ${(doublePointsTimer/60).toFixed(1)}s  `;
-            if (frenzyTimer > 0) eff += `🔥 FRENZY! `;
-            document.getElementById("active-effects").innerText = eff;
-
-            if (score > 0 && score % 35 === 0 && frenzyTimer <= 0 && Math.random() < 0.15) {
-                frenzyTimer = 250; showCombo("🌟 MƯA TRÁI CÂY BÙNG NỔ! 🌟");
-            }
-
-            let spInterval = (freezeTimer > 0) ? 75 : (frenzyTimer > 0 ? 18 : 42);
+            let spawnRate = frenzyTimer > 0 ? 15 : 36;
             spawnTimer++;
-            if (spawnTimer > spInterval) {
-                spawnTimer = 0; spawnFruit();
-                if (frenzyTimer > 0 || Math.random() > 0.5) spawnFruit();
+            if (spawnTimer > spawnRate) {
+                spawnTimer = 0;
+                spawnFruit();
+                if (Math.random() > 0.4 || frenzyTimer > 0) spawnFruit();
             }
 
-            let sf = (freezeTimer > 0) ? 0.35 : 1;
+            let speedFactor = slowMoFrames > 0 ? 0.5 : 1.0;
 
             for (let i = fruits.length - 1; i >= 0; i--) {
                 let f = fruits[i];
-                f.x += f.vx * sf; f.y += f.vy * sf; f.vy += f.gravity * sf;
-                if (f.y > canvas.height + 50) {
-                    if (!f.sliced && !f.isBomb) { lives--; updateLivesUI(); if (lives <= 0) gameOver(); }
+                f.x += f.vx * speedFactor; f.y += f.vy * speedFactor; f.vy += f.gravity * speedFactor; f.rotation += 0.03 * speedFactor;
+                if (f.y > canvas.height + 60) {
+                    if (!f.sliced && !f.isBomb) {
+                        lives--; updateLivesUI();
+                        if (lives <= 0) gameOver();
+                    }
                     fruits.splice(i, 1);
                 }
             }
 
             for (let i = halvedFruits.length - 1; i >= 0; i--) {
                 let h = halvedFruits[i];
-                h.x += h.vx; h.y += h.vy; h.vy += h.gravity;
-                h.rotation += h.vRot; h.alpha -= 0.02;
-                if (h.alpha <= 0 || h.y > canvas.height + 50) halvedFruits.splice(i, 1);
+                h.x += h.vx * speedFactor; h.y += h.vy * speedFactor; h.vy += h.gravity * speedFactor;
+                h.rotation += h.vRot * speedFactor; h.alpha -= 0.02;
+                if (h.alpha <= 0 || h.y > canvas.height + 60) halvedFruits.splice(i, 1);
             }
 
-            for (let i = juiceDrops.length - 1; i >= 0; i--) {
-                let p = juiceDrops[i];
-                p.x += p.vx; p.y += p.vy; p.vy += p.gravity; p.alpha -= 0.03;
-                if (p.alpha <= 0) juiceDrops.splice(i, 1);
+            for (let i = juiceSplashes.length - 1; i >= 0; i--) {
+                let s = juiceSplashes[i];
+                if (s.isDrop) {
+                    s.x += s.vx * speedFactor; s.y += s.vy * speedFactor; s.vy += s.gravity * speedFactor; s.alpha -= 0.025;
+                } else {
+                    s.alpha -= 0.0025;
+                }
+                if (s.alpha <= 0) juiceSplashes.splice(i, 1);
             }
 
-            splashes.forEach(s => s.alpha -= 0.003);
-            splashes = splashes.filter(s => s.alpha > 0);
+            for (let i = fxRings.length - 1; i >= 0; i--) {
+                let r = fxRings[i];
+                r.radius += 6;
+                r.alpha -= 0.05;
+                if (r.alpha <= 0) fxRings.splice(i, 1);
+            }
 
-            sliceTrail.forEach(t => t.alpha -= 0.15);
+            for (let i = debrisList.length - 1; i >= 0; i--) {
+                let d = debrisList[i];
+                d.x += d.vx * speedFactor; d.y += d.vy * speedFactor; d.vy += d.gravity * speedFactor; d.alpha -= 0.03;
+                if (d.alpha <= 0) debrisList.splice(i, 1);
+            }
+
+            sliceTrail.forEach(t => t.alpha -= 0.12);
             sliceTrail = sliceTrail.filter(t => t.alpha > 0);
             document.getElementById("score").innerText = score;
         }
 
-        function draw() {
-            if (superNovaFlash > 0) {
-                ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                return;
-            }
+        function drawFruitShape(ctx, f, isHalf = false, side = 'left') {
+            ctx.save();
+            ctx.translate(f.x, f.y);
+            ctx.rotate(f.rotation);
 
-            if (frenzyTimer > 0) {
-                ctx.fillStyle = "rgba(204, 51, 255, 0.18)";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            if (!isHalf) {
+                ctx.fillStyle = f.isBomb ? '#1a1a1a' : f.outer;
+                ctx.beginPath(); ctx.arc(0, 0, f.radius, 0, Math.PI * 2); ctx.fill();
+                ctx.lineWidth = f.armor > 1 ? 5 : 3.5;
+                ctx.strokeStyle = f.armor > 1 ? '#ffcc00' : 'rgba(0,0,0,0.4)';
+                ctx.stroke();
+
+                if (!f.isBomb) {
+                    ctx.fillStyle = 'rgba(255,255,255,0.25)';
+                    ctx.beginPath(); ctx.arc(-f.radius*0.35, -f.radius*0.35, f.radius*0.3, 0, Math.PI*2); ctx.fill();
+                } else {
+                    ctx.fillStyle = '#ff3366'; ctx.beginPath(); ctx.arc(0, -f.radius*0.65, 7, 0, Math.PI*2); ctx.fill();
+                    ctx.strokeStyle = '#fff'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(0, -f.radius*0.65); ctx.lineTo(12, -f.radius-12); ctx.stroke();
+                }
             } else {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.beginPath();
+                if (side === 'left') {
+                    ctx.arc(0, 0, f.radius, Math.PI * 0.5, Math.PI * 1.5);
+                } else {
+                    ctx.arc(0, 0, f.radius, Math.PI * 1.5, Math.PI * 0.5);
+                }
+                ctx.closePath();
+                
+                ctx.fillStyle = f.outer; ctx.fill();
+                ctx.lineWidth = 2; ctx.strokeStyle = 'rgba(0,0,0,0.5)'; ctx.stroke();
+
+                ctx.fillStyle = f.inner;
+                ctx.beginPath();
+                if (side === 'left') {
+                    ctx.arc(0, 0, f.radius - 5, Math.PI * 0.5, Math.PI * 1.5);
+                } else {
+                    ctx.arc(0, 0, f.radius - 5, Math.PI * 1.5, Math.PI * 0.5);
+                }
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.fillStyle = f.seed;
+                ctx.beginPath(); ctx.arc(side === 'left' ? -7 : 7, 0, 3.5, 0, Math.PI * 2); ctx.fill();
+            }
+            ctx.restore();
+        }
+
+        function draw() {
+            ctx.save();
+            if (screenShakeFrames > 0) {
+                screenShakeFrames--;
+                ctx.translate((Math.random() - 0.5) * 12, (Math.random() - 0.5) * 12);
             }
 
-            // 1. Vết nhựa trái cây bám trên màn hình
-            splashes.forEach(s => {
-                ctx.save();
-                ctx.globalAlpha = s.alpha;
-                ctx.fillStyle = s.color;
-                ctx.beginPath(); ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2); ctx.fill();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Hiệu ứng nền khi kích hoạt Frenzy
+            if (frenzyTimer > 0) {
+                ctx.fillStyle = 'rgba(255, 100, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            juiceSplashes.forEach(s => {
+                if (!s.isDrop) {
+                    ctx.save(); ctx.globalAlpha = s.alpha; ctx.fillStyle = s.color;
+                    ctx.beginPath(); ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2); ctx.fill();
+                    ctx.restore();
+                }
+            });
+
+            fxRings.forEach(r => {
+                ctx.save(); ctx.globalAlpha = r.alpha; ctx.strokeStyle = r.color; ctx.lineWidth = 4;
+                ctx.beginPath(); ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2); ctx.stroke();
                 ctx.restore();
             });
 
-            // 2. Trái cây nguyên vẹn
-            fruits.forEach(f => {
-                ctx.font = f.isBomb ? "38px Arial" : "34px Arial";
-                ctx.textAlign = "center"; ctx.textBaseline = "middle";
-                ctx.fillText(f.emoji, f.x, f.y);
-            });
+            fruits.forEach(f => drawFruitShape(ctx, f));
 
-            // 3. Hai nửa trái cây (có tâm lõi rỉ nước chuẩn game cổ điển)
             halvedFruits.forEach(h => {
-                ctx.save();
-                ctx.globalAlpha = h.alpha;
-                ctx.translate(h.x, h.y);
-                ctx.rotate(h.rotation);
-                
-                ctx.fillStyle = h.juiceColor;
-                ctx.beginPath(); ctx.arc(0, 0, 12, 0, Math.PI * 2); ctx.fill();
-
-                ctx.font = "26px Arial";
-                ctx.textAlign = "center"; ctx.textBaseline = "middle";
-                ctx.fillText(h.emoji, 0, 0);
+                ctx.save(); ctx.globalAlpha = h.alpha;
+                drawFruitShape(ctx, h, true, h.side);
                 ctx.restore();
             });
 
-            // 4. Hạt nước tung tóe
-            juiceDrops.forEach(p => {
-                ctx.save();
-                ctx.globalAlpha = p.alpha;
-                ctx.fillStyle = p.color;
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); ctx.fill();
+            juiceSplashes.forEach(s => {
+                if (s.isDrop) {
+                    ctx.save(); ctx.globalAlpha = s.alpha; ctx.fillStyle = s.color;
+                    ctx.beginPath(); ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2); ctx.fill();
+                    ctx.restore();
+                }
+            });
+            debrisList.forEach(d => {
+                ctx.save(); ctx.globalAlpha = d.alpha; ctx.fillStyle = d.color;
+                ctx.fillRect(d.x, d.y, d.size, d.size);
                 ctx.restore();
             });
 
-            // 5. Vệt chém sắc bén có đuôi mờ phong cách game thùng
+            // Vết kiếm tùy biến theo Lưỡi Kiếm (Blade Styles)
             if (sliceTrail.length > 1) {
-                let col = "0, 255, 204";
-                if (currentBlade === 'fire') col = "255, 51, 102";
-                if (currentBlade === 'plasma') col = "204, 51, 255";
+                let color = "#00ffcc", shadow = "#00ffcc";
+                if (currentBlade === 'inferno') { color = "#ff3300"; shadow = "#ff6600"; }
+                if (currentBlade === 'void') { color = "#bf00ff"; shadow = "#da70d6"; }
+                if (currentBlade === 'rainbow') { color = `hsl(${Date.now() % 360}, 100%, 50%)`; shadow = "#fff"; }
 
-                ctx.strokeStyle = `rgba(${col}, 0.95)`;
-                ctx.lineWidth = 7;
-                ctx.lineCap = "round";
-                ctx.lineJoin = "round";
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 9; ctx.lineCap = "round"; ctx.lineJoin = "round";
+                ctx.shadowColor = shadow;
+                ctx.shadowBlur = 20;
                 ctx.beginPath();
                 ctx.moveTo(sliceTrail[0].x, sliceTrail[0].y);
                 for (let i = 1; i < sliceTrail.length; i++) {
                     ctx.lineTo(sliceTrail[i].x, sliceTrail[i].y);
                 }
                 ctx.stroke();
+                ctx.shadowBlur = 0;
             }
+
+            if (flashAlpha > 0) {
+                ctx.fillStyle = `rgba(255, 255, 255, ${flashAlpha})`;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                flashAlpha -= 0.08;
+            }
+
+            ctx.restore();
         }
 
         function loop() {
