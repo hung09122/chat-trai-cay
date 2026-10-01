@@ -14,7 +14,8 @@
         }
 </head>
 <body>
-background: #0f172a;
+{
+            background: #0f172a;
             color: #fff;
             display: flex;
             flex-direction: column;
@@ -25,8 +26,8 @@ background: #0f172a;
         }
         h1 {
             font-size: 1.8rem;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #f43f5e, #fbbf24);
+            margin-bottom: 8px;
+            background: linear-gradient(45deg, #f43f5e, #fbbf24, #38bdf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
@@ -45,6 +46,7 @@ background: #0f172a;
         canvas {
             display: block;
             background: radial-gradient(circle, #334155 0%, #0f172a 100%);
+            transition: background 0.5s;
         }
         .ui-screen {
             position: absolute;
@@ -52,7 +54,7 @@ background: #0f172a;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 23, 42, 0.85);
+            background: rgba(15, 23, 42, 0.88);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -63,13 +65,13 @@ background: #0f172a;
         }
         .ui-screen h2 {
             font-size: 2rem;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             color: #fbbf24;
         }
         .ui-screen p {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: #94a3b8;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.5;
         }
         .btn {
@@ -95,7 +97,7 @@ background: #0f172a;
             right: 15px;
             display: flex;
             justify-content: space-between;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             z-index: 5;
             pointer-events: none;
@@ -104,31 +106,56 @@ background: #0f172a;
         .lives {
             color: #f43f5e;
         }
+        #combo-popup {
+            position: absolute;
+            top: 70px;
+            width: 100%;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #38bdf8;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+            z-index: 6;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        #active-effects {
+            position: absolute;
+            top: 50px;
+            left: 15px;
+            font-size: 0.85rem;
+            color: #38bdf8;
+            z-index: 5;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
 
-    <h1>🍉 Chặt Trái Cây Đỉnh Cao</h1>
+    <h1>🍉 Chặt Trái Cây Đỉnh Cao (Bản Nâng Cấp)</h1>
     
     <div id="game-container">
         <div id="scoreboard">
             <div>Điểm: <span id="score">0</span></div>
             <div class="lives">Mạng: <span id="lives">❤️❤️❤️</span></div>
         </div>
+        <div id="active-effects"></div>
+        <div id="combo-popup"></div>
 
         <canvas id="gameCanvas" width="400" height="600"></canvas>
 
         <!-- Màn hình Bắt đầu -->
         <div id="start-screen" class="ui-screen">
-            <h2>Sẵn sàng chém trái cây?</h2>
-            <p>Dùng chuột (hoặc ngón tay vuốt trên điện thoại) để cắt đứt các loại trái cây bay lên. <b>Tuyệt đối tránh chém phải BOM!</b> Nếu bỏ lỡ 3 quả sẽ thua.</p>
+            <h2>Sẵn sàng chém bùng nổ?</h2>
+            <p>Tránh <b>Bom (💣)</b>. Khám phá <b>Chuối Đóng Băng (❄️)</b> và <b>Dứa x2 Điểm (🍍)</b>. Đạt điểm cao để kích hoạt <b>Frenzy Mode</b>!</p>
             <button class="btn" onclick="startGame()">BẮT ĐẦU NGAY</button>
         </div>
 
         <!-- Màn hình Thua cuộc -->
         <div id="gameover-screen" class="ui-screen" style="display: none;">
-            <h2>💥 HẾT MẠNG!</h2>
-            <p>Trò chơi kết thúc!<br>Điểm số đạt được: <span id="final-score">0</span></p>
+            <h2>💥 KẾT THÚC TRÒ CHƠI</h2>
+            <p>Điểm số đạt được: <span id="final-score">0</span><br>Kỷ lục mới sẽ thuộc về bạn?</p>
             <button class="btn" onclick="startGame()">CHƠI LẠI</button>
         </div>
     </div>
@@ -137,6 +164,44 @@ background: #0f172a;
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
 
+        // Web Audio API khởi tạo âm thanh
+        let audioCtx = null;
+        function playSound(type) {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'slice') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.1);
+                    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.1);
+                } else if (type === 'bomb') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                    osc.frequency.linearRampToValueAtTime(40, audioCtx.currentTime + 0.4);
+                    gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.4);
+                } else if (type === 'special') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.2);
+                    gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.2);
+                }
+            } catch(e) {}
+        }
+
         let score = 0;
         let lives = 3;
         let isPlaying = false;
@@ -144,23 +209,27 @@ background: #0f172a;
         let particles = [];
         let sliceTrail = [];
         let spawnTimer = 0;
+        
+        // Trạng thái hiệu ứng đặc biệt
+        let doublePointsTimer = 0;
+        let freezeTimer = 0;
+        let frenzyTimer = 0;
 
-        // Định nghĩa các loại trái cây và bom
         const fruitTypes = [
-            { name: 'Watermelon', emoji: '🍉', color: '#ef4444', radius: 35, points: 1 },
-            { name: 'Apple', emoji: '🍎', color: '#dc2626', radius: 28, points: 1 },
-            { name: 'Banana', emoji: '🍌', color: '#facc15', radius: 25, points: 2 },
-            { name: 'Orange', emoji: '🍊', color: '#f97316', radius: 30, points: 2 },
-            { name: 'Grape', emoji: '🍇', color: '#a855f7', radius: 26, points: 3 },
-            { name: 'Bomb', emoji: '💣', color: '#000000', radius: 30, isBomb: true }
+            { name: 'Watermelon', emoji: '🍉', radius: 35, points: 1 },
+            { name: 'Apple', emoji: '🍎', radius: 28, points: 1 },
+            { name: 'Orange', emoji: '🍊', radius: 30, points: 2 },
+            { name: 'Grape', emoji: '🍇', radius: 26, points: 3 },
+            { name: 'FreezeBanana', emoji: '🍌❄️', radius: 30, isFreeze: true },
+            { name: 'DoublePineapple', emoji: '🍍✨', radius: 32, isDouble: true },
+            { name: 'Bomb', emoji: '💣', radius: 30, isBomb: true }
         ];
 
-        // Xử lý sự kiện kéo chuột / vuốt tay để chém
         let isDragging = false;
 
         function addPoint(x, y) {
             sliceTrail.push({ x, y, alpha: 1 });
-            if (sliceTrail.length > 10) sliceTrail.shift();
+            if (sliceTrail.length > 12) sliceTrail.shift();
         }
 
         canvas.addEventListener("mousedown", (e) => {
@@ -183,7 +252,6 @@ background: #0f172a;
             sliceTrail = [];
         });
 
-        // Hỗ trợ cảm ứng điện thoại
         canvas.addEventListener("touchstart", (e) => {
             isDragging = true;
             let rect = canvas.getBoundingClientRect();
@@ -216,6 +284,9 @@ background: #0f172a;
             fruits = [];
             particles = [];
             spawnTimer = 0;
+            doublePointsTimer = 0;
+            freezeTimer = 0;
+            frenzyTimer = 0;
             isPlaying = true;
             updateLivesUI();
             loop();
@@ -223,6 +294,7 @@ background: #0f172a;
 
         function gameOver() {
             isPlaying = false;
+            playSound('bomb');
             document.getElementById("final-score").innerText = score;
             document.getElementById("gameover-screen").style.display = "flex";
         }
@@ -233,16 +305,27 @@ background: #0f172a;
             document.getElementById("lives").innerText = hearts;
         }
 
+        function showCombo(text) {
+            let el = document.getElementById("combo-popup");
+            el.innerText = text;
+            el.style.opacity = "1";
+            setTimeout(() => { el.style.opacity = "0"; }, 800);
+        }
+
         function spawnFruit() {
             let type = fruitTypes[Math.floor(Math.random() * fruitTypes.length)];
-            // Tỷ lệ xuất hiện bom thấp hơn một chút cho dễ thở
-            if (type.isBomb && Math.random() > 0.4) {
-                type = fruitTypes[0]; 
+            // Giảm tỉ lệ bom và đồ hiếm cho cân bằng
+            if ((type.isBomb || type.isFreeze || type.isDouble) && Math.random() > 0.45) {
+                type = fruitTypes[0];
             }
 
             let x = Math.random() * (canvas.width - 100) + 50;
             let vx = (canvas.width / 2 - x) * 0.02 + (Math.random() - 0.5) * 2;
-            let vy = -Math.random() * 4 - 11; // Tung lên cao
+            let vy = -Math.random() * 4 - 11;
+
+            if (frenzyTimer > 0) {
+                vy -= 3; // Bay nhanh hơn trong chế độ Frenzy
+            }
 
             fruits.push({
                 x: x,
@@ -255,71 +338,112 @@ background: #0f172a;
             });
         }
 
-        function createParticles(x, y, color) {
+        function createParticles(x, y) {
             for (let i = 0; i < 12; i++) {
                 particles.push({
                     x: x,
                     y: y,
-                    vx: (Math.random() - 0.5) * 8,
-                    vy: (Math.random() - 0.5) * 8,
+                    vx: (Math.random() - 0.5) * 9,
+                    vy: (Math.random() - 0.5) * 9,
                     radius: Math.random() * 5 + 2,
-                    color: color,
+                    color: ['#f43f5e', '#fbbf24', '#38bdf8', '#a855f7'][Math.floor(Math.random()*4)],
                     alpha: 1
                 });
             }
         }
 
         function checkSlice(x, y) {
+            let slicedCount = 0;
             fruits.forEach(f => {
                 if (!f.sliced) {
                     let dist = Math.hypot(f.x - x, f.y - y);
-                    if (dist < f.radius + 15) {
+                    if (dist < f.radius + 18) {
                         f.sliced = true;
+                        slicedCount++;
+
                         if (f.isBomb) {
-                            // Chém trúng bom -> Trừ hết mạng thua luôn
                             lives = 0;
                             updateLivesUI();
                             gameOver();
                         } else {
-                            score += f.points;
-                            createParticles(f.x, f.y, f.color);
+                            playSound('slice');
+                            createParticles(f.x, f.y);
+
+                            let pts = f.points || 1;
+                            if (doublePointsTimer > 0) pts *= 2;
+
+                            if (f.isFreeze) {
+                                freezeTimer = 300; // Đóng băng 5 giây
+                                playSound('special');
+                                showCombo("❄️ ĐÓNG BĂNG!");
+                            } else if (f.isDouble) {
+                                doublePointsTimer = 300; // x2 điểm 5 giây
+                                playSound('special');
+                                showCombo("🍍 NHÂN ĐÔI ĐIỂM!");
+                            }
+
+                            score += pts;
                         }
                     }
                 }
             });
+
+            if (slicedCount >= 3) {
+                showCombo(`🔥 COMBO x${slicedCount}!`);
+                score += slicedCount * 2;
+            }
         }
 
         function update() {
             if (!isPlaying) return;
 
-            spawnTimer++;
-            if (spawnTimer > 45) { // Tần suất xuất hiện trái cây
-                spawnTimer = 0;
-                spawnFruit();
-                if (Math.random() > 0.5) spawnFruit(); // Đôi khi tung 2 quả cùng lúc
+            // Xử lý bộ đếm thời gian hiệu ứng
+            if (freezeTimer > 0) freezeTimer--;
+            if (doublePointsTimer > 0) doublePointsTimer--;
+            if (frenzyTimer > 0) frenzyTimer--;
+
+            // Cập nhật text trạng thái hiệu ứng
+            let effectText = "";
+            if (freezeTimer > 0) effectText += `❄️ Đóng băng: ${(freezeTimer/60).toFixed(1)}s  `;
+            if (doublePointsTimer > 0) effectText += `🍍 x2 Điểm: ${(doublePointsTimer/60).toFixed(1)}s  `;
+            if (frenzyTimer > 0) effectText += `🔥 FRENZY MODE! `;
+            document.getElementById("active-effects").innerText = effectText;
+
+            // Kích hoạt Frenzy tự động khi điểm chia hết cho 30
+            if (score > 0 && score % 30 === 0 && frenzyTimer <= 0 && Math.random() < 0.1) {
+                frenzyTimer = 250;
+                showCombo("🌟 FRENZY BÙNG NỔ! 🌟");
             }
 
-            // Cập nhật vị trí trái cây
+            // Tần suất tung trái cây
+            let spawnInterval = (freezeTimer > 0) ? 70 : (frenzyTimer > 0 ? 20 : 45);
+            spawnTimer++;
+            if (spawnTimer > spawnInterval) {
+                spawnTimer = 0;
+                spawnFruit();
+                if (frenzyTimer > 0 || Math.random() > 0.6) spawnFruit();
+            }
+
+            // Cập nhật vị trí trái cây (nếu đóng băng thì tốc độ giảm mạnh)
+            let speedFactor = (freezeTimer > 0) ? 0.35 : 1;
+
             for (let i = fruits.length - 1; i >= 0; i--) {
                 let f = fruits[i];
-                f.x += f.vx;
-                f.y += f.vy;
-                f.vy += f.gravity;
+                f.x += f.vx * speedFactor;
+                f.y += f.vy * speedFactor;
+                f.vy += f.gravity * speedFactor;
 
-                // Nếu rơi xuống đáy mà chưa bị chém (và không phải bom)
                 if (f.y > canvas.height + 50) {
                     if (!f.sliced && !f.isBomb) {
                         lives--;
                         updateLivesUI();
-                        if (lives <= 0) {
-                            gameOver();
-                        }
+                        if (lives <= 0) gameOver();
                     }
                     fruits.splice(i, 1);
                 }
             }
 
-            // Cập nhật hiệu ứng hạt nước trái cây văng ra
+            // Cập nhật hạt văng
             for (let i = particles.length - 1; i >= 0; i--) {
                 let p = particles[i];
                 p.x += p.vx;
@@ -328,25 +452,30 @@ background: #0f172a;
                 if (p.alpha <= 0) particles.splice(i, 1);
             }
 
-            // Mờ dần vệt chém
-            sliceTrail.forEach(t => t.alpha -= 0.15);
+            sliceTrail.forEach(t => t.alpha -= 0.12);
             sliceTrail = sliceTrail.filter(t => t.alpha > 0);
 
             document.getElementById("score").innerText = score;
         }
 
         function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Thay đổi màu nền khi bật Frenzy Mode
+            if (frenzyTimer > 0) {
+                ctx.fillStyle = "rgba(124, 45, 18, 0.25)";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            } else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
 
             // Vẽ trái cây
             fruits.forEach(f => {
-                ctx.font = "36px Arial";
+                ctx.font = f.isBomb ? "38px Arial" : "34px Arial";
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
                 ctx.fillText(f.emoji, f.x, f.y);
             });
 
-            // Vẽ hạt tung tóe
+            // Vẽ hạt nước trái cây
             particles.forEach(p => {
                 ctx.save();
                 ctx.globalAlpha = p.alpha;
@@ -357,10 +486,10 @@ background: #0f172a;
                 ctx.restore();
             });
 
-            // Vẽ vệt dao chém (đường nét sáng)
+            // Vẽ đường chém neon
             if (sliceTrail.length > 1) {
-                ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
-                ctx.lineWidth = 4;
+                ctx.strokeStyle = frenzyTimer > 0 ? "rgba(250, 204, 21, 0.9)" : "rgba(56, 189, 248, 0.85)";
+                ctx.lineWidth = 5;
                 ctx.lineCap = "round";
                 ctx.beginPath();
                 ctx.moveTo(sliceTrail[0].x, sliceTrail[0].y);
