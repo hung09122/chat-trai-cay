@@ -25,12 +25,14 @@
             overflow: hidden;
         }
         h1 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             margin-bottom: 4px;
             background: linear-gradient(45deg, #ff3366, #ffcc00, #00ffcc, #cc33ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         #game-container {
             position: relative;
@@ -38,78 +40,133 @@
             height: 600px;
             background: #0b0f19;
             border: 4px solid #1f293d;
-            border-radius: 14px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.9);
+            box-shadow: 0 0 40px rgba(0, 255, 204, 0.15), 0 25px 50px rgba(0,0,0,0.9);
             cursor: crosshair;
         }
         canvas {
             display: block;
             background: radial-gradient(circle, #151c2e 0%, #070a12 100%);
         }
+
+        /* --- MÀN HÌNH CHỜ & MENU CỰC ĐẸP --- */
         .ui-screen {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(7, 10, 18, 0.95);
+            background: linear-gradient(135deg, rgba(7, 10, 18, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
+            backdrop-filter: blur(8px);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 20px;
+            padding: 25px;
             z-index: 10;
+            animation: fadeIn 0.4s ease-out;
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .logo-badge {
+            font-size: 3.2rem;
+            margin-bottom: 5px;
+            animation: floatLogo 2s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 15px rgba(255, 204, 0, 0.5));
+        }
+
+        @keyframes floatLogo {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-8px); }
+        }
+
         .ui-screen h2 {
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-            color: #ffcc00;
-            text-shadow: 0 0 15px rgba(255, 204, 0, 0.6);
+            font-size: 1.6rem;
+            margin-bottom: 6px;
+            background: linear-gradient(45deg, #ffcc00, #ff3366);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
         }
+
         .ui-screen p {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             color: #94a3b8;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             line-height: 1.5;
+            max-width: 320px;
         }
+
+        .section-title {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
         .blade-selector {
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 20px;
         }
+
         .blade-btn {
-            background: #1e293b;
+            background: rgba(30, 41, 59, 0.7);
             border: 2px solid #334155;
-            color: #fff;
+            color: #cbd5e1;
             padding: 8px 12px;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 0.8rem;
-            transition: 0.2s;
+            font-size: 0.78rem;
+            font-weight: 600;
+            transition: all 0.25s ease;
         }
+
+        .blade-btn:hover {
+            border-color: #64748b;
+            background: rgba(51, 65, 85, 0.8);
+        }
+
         .blade-btn.active {
-            border-color: #ff3366;
-            background: rgba(255, 51, 102, 0.2);
-            font-weight: bold;
+            border-color: #00ffcc;
+            background: rgba(0, 255, 204, 0.15);
+            color: #fff;
+            box-shadow: 0 0 12px rgba(0, 255, 204, 0.4);
+            transform: translateY(-2px);
         }
+
         .btn {
-            background: linear-gradient(45deg, #ff3366, #ffcc00);
-            color: #020408;
+            background: linear-gradient(135deg, #ff3366 0%, #ff9900 100%);
+            color: #fff;
             border: none;
-            padding: 12px 30px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 25px;
+            padding: 12px 36px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            border-radius: 30px;
             cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 15px rgba(255, 51, 102, 0.5);
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 20px rgba(255, 51, 102, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
+
         .btn:hover {
-            transform: scale(1.06);
-            opacity: 0.9;
+            transform: scale(1.06) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 51, 102, 0.6);
         }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
         #scoreboard {
             position: absolute;
             top: 12px;
@@ -117,19 +174,20 @@
             right: 15px;
             display: flex;
             justify-content: space-between;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: bold;
             z-index: 5;
             pointer-events: none;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
         .lives { color: #ff3366; }
+        
         #rage-container {
             position: absolute;
-            top: 40px;
+            top: 38px;
             left: 15px;
             right: 15px;
-            height: 6px;
+            height: 5px;
             background: #1e293b;
             border-radius: 3px;
             overflow: hidden;
@@ -144,9 +202,9 @@
         }
         #active-effects {
             position: absolute;
-            top: 50px;
+            top: 48px;
             left: 15px;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: #00ffcc;
             z-index: 5;
             pointer-events: none;
@@ -157,7 +215,7 @@
             top: 75px;
             width: 100%;
             text-align: center;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 900;
             color: #00ffcc;
             text-shadow: 0 0 12px rgba(0, 255, 204, 0.9);
@@ -184,23 +242,28 @@
 
         <canvas id="gameCanvas" width="400" height="600"></canvas>
 
-        <!-- Màn hình Bắt đầu -->
+        <!-- Màn hình Bắt đầu được thiết kế tinh tế & hiện đại -->
         <div id="start-screen" class="ui-screen">
-            <h2>CHỌN LƯỠI KIẾM CỦA BẠN</h2>
+            <div class="logo-badge">⚔️🍉</div>
+            <h2>Fruit Slash Legends</h2>
+            <p>Chém trái cây tích lũy điểm cao, né tránh bom 💣. Kích hoạt đầy thanh nộ rồi bấm <b>SPACE</b> để dùng Super Nova!</p>
+            
+            <div class="section-title">Chọn hiệu ứng lưỡi kiếm</div>
             <div class="blade-selector">
                 <button class="blade-btn active" onclick="setBlade('neon', this)">⚡ Neon Xanh</button>
                 <button class="blade-btn" onclick="setBlade('fire', this)">🔥 Kiếm Lửa</button>
                 <button class="blade-btn" onclick="setBlade('plasma', this)">💎 Plasma Tím</button>
             </div>
-            <p>Tránh bom 💣. Chém đầy thanh nộ rồi <b>nhấn SPACE</b> để kích hoạt Super Nova quét sạch màn hình!</p>
-            <button class="btn" onclick="startGame()">BẮT ĐẦU NGAY</button>
+
+            <button class="btn" onclick="startGame()">BẮT ĐẦU CHƠI</button>
         </div>
 
-        <!-- Màn hình Thua cuộc -->
+        <!-- Màn hình Kết thúc trò chơi -->
         <div id="gameover-screen" class="ui-screen" style="display: none;">
-            <h2>💥 KẾT THÚC TRÒ CHƠI</h2>
-            <p>Điểm: <span id="final-score">0</span> | Kỷ lục: <span id="final-highscore">0</span></p>
-            <button class="btn" onclick="startGame()">CHƠI LẠI</button>
+            <div class="logo-badge">💥</div>
+            <h2>KẾT THÚC TRÒ CHƠI</h2>
+            <p>Điểm đạt được: <span id="final-score" style="color: #fff; font-weight: bold;">0</span><br>Kỷ lục hiện tại: <span id="final-highscore" style="color: #ffcc00; font-weight: bold;">0</span></p>
+            <button class="btn" onclick="startGame()">CHƠI LẠI NGAY</button>
         </div>
     </div>
 
@@ -271,7 +334,7 @@
         let frenzyTimer = 0;
         let superNovaFlash = 0;
         let screenShakeTimer = 0;
-        let hitStopFrames = 0; // Hiệu ứng khựng hình khi chém (Juiciness)
+        let hitStopFrames = 0;
         let rageEnergy = 0;
 
         const fruitTypes = [
@@ -394,7 +457,7 @@
 
         function updateLivesUI() {
             let hearts = "";
-            for (let i = 0; i < lives; i++) hearts += "❤️";
+            for (let i = 0; i < lives; i++) hearts += "❤️️";
             document.getElementById("lives").innerText = hearts;
         }
 
@@ -438,8 +501,8 @@
         }
 
         function createHalvedFruit(x, y, emoji) {
-            halvedFruits.push({ x, y, vx: -3.5, vy: -5, gravity: 0.4, rotation: 0, vRot: -0.12, emoji, alpha: 1 });
-            halvedFruits.push({ x, y, vx: 3.5, vy: -5, gravity: 0.4, rotation: 0, vRot: 0.12, emoji, alpha: 1 });
+            halvedFruits.push({ x, y, vx: -3.5, vy: -5, gravity: 0.4, rotation: 0, vRot: -0.15, emoji, alpha: 1 });
+            halvedFruits.push({ x, y, vx: 3.5, vy: -5, gravity: 0.4, rotation: 0, vRot: 0.15, emoji, alpha: 1 });
         }
 
         function checkSlice(x, y) {
@@ -459,7 +522,7 @@
                             playSound('slice');
                             createParticles(f.x, f.y);
                             createHalvedFruit(f.x, f.y, f.emoji);
-                            hitStopFrames = 3; // Kích hoạt khựng hình cực sướng tay
+                            hitStopFrames = 3;
 
                             let pts = f.points || 1;
                             if (doublePointsTimer > 0) pts *= 2;
@@ -499,7 +562,6 @@
         function update() {
             if (!isPlaying) return;
 
-            // Xử lý hiệu ứng khựng hình (Hit-stop)
             if (hitStopFrames > 0) {
                 hitStopFrames--;
                 return;
@@ -520,7 +582,7 @@
             }
 
             let effectText = "";
-            if (freezeTimer > 0) effectText += `❄️ Đóng băng: ${(freezeTimer/60).toFixed(1)}s  `;
+            if (freezeTimer > 0) effectText += `❄️️ Đóng băng: ${(freezeTimer/60).toFixed(1)}s  `;
             if (doublePointsTimer > 0) effectText += `🍍 x2 Điểm: ${(doublePointsTimer/60).toFixed(1)}s  `;
             if (frenzyTimer > 0) effectText += `🔥 FRENZY! `;
             document.getElementById("active-effects").innerText = effectText;
@@ -559,7 +621,7 @@
             for (let i = halvedFruits.length - 1; i >= 0; i--) {
                 let h = halvedFruits[i];
                 h.x += h.vx; h.y += h.vy; h.vy += h.gravity;
-                h.rotation += h.vRot; h.alpha -= 0.02;
+                h.rotation += h.vRot; h.alpha -= 0.025;
                 if (h.alpha <= 0 || h.y > canvas.height + 50) halvedFruits.splice(i, 1);
             }
 
@@ -599,7 +661,7 @@
                 ctx.globalAlpha = h.alpha;
                 ctx.translate(h.x, h.y);
                 ctx.rotate(h.rotation);
-                ctx.font = "28px Arial";
+                ctx.font = "26px Arial";
                 ctx.textAlign = "center"; ctx.textBaseline = "middle";
                 ctx.fillText(h.emoji, 0, 0);
                 ctx.restore();
@@ -615,7 +677,6 @@
                 ctx.restore();
             });
 
-            // Vẽ vệt chém theo loại Kiếm (Blade Color)
             if (sliceTrail.length > 1) {
                 let trailColor = "rgba(0, 255, 204, 0.95)";
                 if (currentBlade === 'fire') trailColor = "rgba(255, 51, 102, 0.95)";
