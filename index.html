@@ -43,7 +43,7 @@
             border: 4px solid #1e293b;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 0 100px rgba(0, 242, 254, 0.25), 0 30px 60px rgba(0,0,0,0.9);
+            box-shadow: 0 0 100px rgba(255, 8, 68, 0.2), 0 30px 60px rgba(0,0,0,0.9);
             cursor: crosshair;
         }
         canvas {
@@ -68,12 +68,11 @@
             z-index: 10;
         }
 
-        /* Lobby Animations & Styling */
         .lobby-bg-glow {
             position: absolute;
             width: 350px;
             height: 350px;
-            background: radial-gradient(circle, rgba(0,242,254,0.18) 0%, rgba(255,8,68,0.08) 50%, transparent 70%);
+            background: radial-gradient(circle, rgba(255,8,68,0.2) 0%, rgba(0,242,254,0.1) 50%, transparent 70%);
             border-radius: 50%;
             animation: pulseLobby 4s ease-in-out infinite alternate;
             z-index: -1;
@@ -88,7 +87,7 @@
             font-size: 3.5rem;
             margin-bottom: 6px;
             animation: floatLogo 2s ease-in-out infinite alternate;
-            filter: drop-shadow(0 0 30px rgba(0, 242, 254, 0.8));
+            filter: drop-shadow(0 0 30px rgba(255, 8, 68, 0.8));
         }
         @keyframes floatLogo {
             0% { transform: translateY(0) scale(1); }
@@ -97,10 +96,10 @@
         .ui-screen h2 {
             font-size: 1.9rem;
             margin-bottom: 6px;
-            background: linear-gradient(45deg, #00f2fe, #ff0844);
+            background: linear-gradient(45deg, #ff0844, #ffb199);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 15px rgba(0, 242, 254, 0.3);
+            text-shadow: 0 2px 15px rgba(255, 8, 68, 0.3);
             font-weight: 900;
         }
         .ui-screen p {
@@ -127,17 +126,17 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
-        .blade-opt:hover { border-color: #00f2fe; color: #fff; }
+        .blade-opt:hover { border-color: #ff0844; color: #fff; }
         .blade-opt.active {
-            border-color: #00f2fe;
-            background: rgba(0, 242, 254, 0.2);
-            color: #00f2fe;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.5);
+            border-color: #ff0844;
+            background: rgba(255, 8, 68, 0.2);
+            color: #ff3366;
+            box-shadow: 0 0 20px rgba(255, 8, 68, 0.5);
             transform: scale(1.05);
         }
 
         .btn {
-            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            background: linear-gradient(135deg, #ff0844 0%, #ffb199 100%);
             color: #05070d;
             border: none;
             padding: 13px 42px;
@@ -145,12 +144,12 @@
             font-weight: 900;
             border-radius: 35px;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(0, 242, 254, 0.45);
+            box-shadow: 0 8px 25px rgba(255, 8, 68, 0.45);
             text-transform: uppercase;
             letter-spacing: 2px;
             transition: all 0.2s ease;
         }
-        .btn:hover { transform: scale(1.08); box-shadow: 0 12px 35px rgba(0, 242, 254, 0.75); }
+        .btn:hover { transform: scale(1.08); box-shadow: 0 12px 35px rgba(255, 8, 68, 0.75); }
 
         #scoreboard {
             position: absolute;
@@ -160,10 +159,14 @@
             text-shadow: 0 2px 5px rgba(0,0,0,0.8);
         }
         .lives { color: #ff3366; font-size: 1.2rem; }
+        #space-hint {
+            position: absolute; bottom: 10px; width: 100%; text-align: center;
+            font-size: 0.8rem; color: #64748b; font-weight: bold; z-index: 5; pointer-events: none;
+        }
         #popup-msg {
             position: absolute; top: 75px; width: 100%; text-align: center;
-            font-size: 1.8rem; font-weight: 900; color: #00f2fe;
-            text-shadow: 0 0 20px rgba(0, 242, 254, 0.9);
+            font-size: 1.8rem; font-weight: 900; color: #ff0844;
+            text-shadow: 0 0 20px rgba(255, 8, 68, 0.9);
             z-index: 6; pointer-events: none; opacity: 0;
             transform: scale(0.5);
             transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.4);
@@ -172,23 +175,24 @@
 </head>
 <body>
 
-    <h1>⚡ Fruit Ninja: Elemental God & Boss Rush (Deluxe Lobby) 🌀</h1>
+    <h1>💣 Fruit Ninja: Deluxe Lobby & Space Bomb 🌀</h1>
     
     <div id="game-container">
         <div id="scoreboard">
-            <div>Điểm: <span id="score" style="color:#00f2fe;">0</span> | Kỷ lục: <span id="highscore" style="color:#ffcc00;">0</span></div>
+            <div>Điểm: <span id="score" style="color:#ff0844;">0</span> | Kỷ lục: <span id="highscore" style="color:#ffcc00;">0</span></div>
             <div class="lives"><span id="lives">❤️❤️❤️</span></div>
         </div>
+        <div id="space-hint">💡 Nhấn phím [SPACE] để kích hoạt Bom Xóa Sạch Toàn Màn Hình!</div>
         <div id="popup-msg"></div>
 
         <canvas id="gameCanvas" width="750" height="600"></canvas>
 
-        <!-- SẢNH CHỜ (DELUXE LOBBY) -->
+        <!-- SẢNH CHỜ -->
         <div id="start-screen" class="ui-screen">
             <div class="lobby-bg-glow"></div>
-            <div class="logo-badge">⚡❄️⚔️</div>
+            <div class="logo-badge">💣⚡⚔️</div>
             <h2>DELUXE LOBBY ARENA</h2>
-            <p>Chọn hệ năng lượng cho lưỡi kiếm của bạn trước khi bước vào trận chiến đối đầu Titan Boss và Sấm Sét tối thượng!</p>
+            <p>Tránh bom nguy hiểm, hạ gục Titan Boss, và sử dụng phím **SPACE** để tạo vụ nổ năng lượng quét sạch màn hình!</p>
             
             <div class="blade-picker">
                 <button class="blade-opt active" onclick="setBladeStyle('neon', this)">⚡ Quantum Cyan</button>
@@ -257,27 +261,52 @@
             } catch(e) {}
         }
 
-        let score = 0, highscore = localStorage.getItem("fruit_ninja_lobby_hs") || 0;
+        let score = 0, highscore = localStorage.getItem("fruit_ninja_spacebomb_hs") || 0;
         document.getElementById("highscore").innerText = highscore;
 
         let lives = 3, isPlaying = false;
-        let fruits = [], halvedFruits = [], juiceSplashes = [], sliceTrail = [], fxRings = [], lightningBeams = [];
+        let fruits = [], sliceTrail = [], lightningBeams = [];
         let spawnTimer = 0, hitStopFrames = 0, screenShakeFrames = 0, flashAlpha = 0;
         let freezeTimer = 0, bossActive = false, bossObj = null;
 
         const fruitTypes = [
-            { type: 'watermelon', radius: 35, points: 1, outer: '#1b4332', inner: '#d90429', seed: '#111' },
-            { type: 'apple', radius: 27, points: 1, outer: '#d90429', inner: '#ffb703', seed: '#3d2314' },
-            { type: 'orange', radius: 29, points: 2, outer: '#f77f00', inner: '#fcbf49', seed: '#fff' },
-            { type: 'lightning', radius: 26, points: 5, outer: '#00f2fe', inner: '#ffffff', seed: '#00f2fe', isLightning: true },
-            { type: 'freeze', radius: 26, points: 5, outer: '#4facfe', inner: '#e0f7fa', seed: '#0288d1', isFreeze: true },
-            { type: 'bomb', radius: 28, isBomb: true }
+            { type: 'watermelon', radius: 35, points: 1, outer: '#1b4332', inner: '#d90429' },
+            { type: 'apple', radius: 27, points: 1, outer: '#d90429', inner: '#ffb703' },
+            { type: 'orange', radius: 29, points: 2, outer: '#f77f00', inner: '#fcbf49' },
+            { type: 'lightning', radius: 26, points: 5, outer: '#00f2fe', inner: '#ffffff', isLightning: true },
+            { type: 'freeze', radius: 26, points: 5, outer: '#4facfe', inner: '#e0f7fa', isFreeze: true },
+            { type: 'bomb', radius: 28, isBomb: true } // BOM HỦY DIỆT TRẬN ĐẤU
         ];
 
         let isDragging = false;
         function addPoint(x, y) {
             sliceTrail.push({ x, y, alpha: 1 });
             if (sliceTrail.length > 15) sliceTrail.shift();
+        }
+
+        // Kích hoạt bom nổ toàn màn hình bằng phím SPACE
+        window.addEventListener("keydown", (e) => {
+            if (e.code === "Space" && isPlaying) {
+                e.preventDefault();
+                triggerSpaceBombClear();
+            }
+        });
+
+        function triggerSpaceBombClear() {
+            playSound('bomb');
+            flashAlpha = 0.9;
+            screenShakeFrames = 30;
+            showPopup("💥 SPACE BOMB: CLEANSE!", "#ff0844");
+
+            let clearedCount = 0;
+            fruits.forEach(f => {
+                if (!f.isBomb) {
+                    clearedCount += f.isBoss ? 15 : f.points;
+                }
+            });
+            score += clearedCount;
+            fruits = [];
+            bossObj = null;
         }
 
         canvas.addEventListener("mousedown", (e) => {
@@ -311,7 +340,7 @@
         function startGame() {
             document.getElementById("start-screen").style.display = "none";
             document.getElementById("gameover-screen").style.display = "none";
-            score = 0; lives = 3; fruits = []; halvedFruits = []; juiceSplashes = []; fxRings = []; lightningBeams = [];
+            score = 0; lives = 3; fruits = []; sliceTrail = []; lightningBeams = [];
             spawnTimer = 0; hitStopFrames = 0; screenShakeFrames = 0; flashAlpha = 0;
             freezeTimer = 0; bossActive = false; bossObj = null;
             isPlaying = true;
@@ -326,7 +355,7 @@
             flashAlpha = 0.85;
             if (score > highscore) {
                 highscore = score;
-                localStorage.setItem("fruit_ninja_lobby_hs", highscore);
+                localStorage.setItem("fruit_ninja_spacebomb_hs", highscore);
                 document.getElementById("highscore").innerText = highscore;
             }
             document.getElementById("final-score").innerText = score;
@@ -339,7 +368,7 @@
             document.getElementById("lives").innerText = h;
         }
 
-        function showPopup(text, color = "#00f2fe") {
+        function showPopup(text, color = "#ff0844") {
             let el = document.getElementById("popup-msg");
             el.innerText = text;
             el.style.color = color;
@@ -352,13 +381,12 @@
             if (!bossActive && score > 0 && score % 40 === 0 && !bossObj) {
                 bossObj = { x: canvas.width / 2, y: canvas.height + 60, vx: 0, vy: -10, gravity: 0.25, radius: 65, hp: 6, maxHp: 6, rotation: 0, isBoss: true, sliced: false };
                 fruits.push(bossObj);
-                showPopup("⚠️ WATERMELON TITAN XUẤT HIỆN!", "#ff3366");
+                showPopup("⚠️ WATERMELON TITAN XUẤT HIỆN!", "#ff0844");
                 playSound('lightning');
                 return;
             }
 
             let template = fruitTypes[Math.floor(Math.random() * fruitTypes.length)];
-            if (template.isBomb && Math.random() > 0.2) template = fruitTypes[0];
             
             let x = Math.random() * (canvas.width - 160) + 80;
             let vx = (canvas.width / 2 - x) * 0.02 + (Math.random() - 0.5) * 3.5;
@@ -394,12 +422,13 @@
                     let dist = Math.hypot(f.x - x, f.y - y);
                     if (dist < f.radius + 18) {
                         if (f.isBomb) {
+                            // Chém trúng bom -> thua ngay
                             lives = 0; updateLivesUI(); gameOver();
                         } else if (f.isBoss) {
                             f.hp--;
                             playSound('slice');
                             screenShakeFrames = 6;
-                            showPopup(`🛡️ TITAN HP: ${f.hp}/${f.maxHp}`, "#ff3366");
+                            showPopup(`🛡️ TITAN HP: ${f.hp}/${f.maxHp}`, "#ff0844");
                             if (f.hp <= 0) {
                                 f.sliced = true;
                                 bossObj = null;
@@ -493,11 +522,23 @@
                 if (f.isBoss) {
                     ctx.fillStyle = '#0f172a';
                     ctx.beginPath(); ctx.arc(0, 0, f.radius, 0, Math.PI * 2); ctx.fill();
-                    ctx.lineWidth = 6; ctx.strokeStyle = '#ff3366'; ctx.stroke();
+                    ctx.lineWidth = 6; ctx.strokeStyle = '#ff0844'; ctx.stroke();
                     ctx.fillStyle = '#d90429';
                     ctx.beginPath(); ctx.arc(0, 0, f.radius - 10, 0, Math.PI * 2); ctx.fill();
+                } else if (f.isBomb) {
+                    // Vẽ quả bom đen có ngòi nổ
+                    ctx.fillStyle = '#111111';
+                    ctx.beginPath(); ctx.arc(0, 0, f.radius, 0, Math.PI * 2); ctx.fill();
+                    ctx.lineWidth = 3; ctx.strokeStyle = '#ff0844'; ctx.stroke();
+                    // Đốm sáng trên bom
+                    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                    ctx.beginPath(); ctx.arc(-8, -8, 6, 0, Math.PI * 2); ctx.fill();
+                    // Ngòi nổ
+                    ctx.strokeStyle = '#ffcc00'; ctx.lineWidth = 2.5;
+                    ctx.beginPath(); ctx.moveTo(0, -f.radius); ctx.lineTo(12, -f.radius - 12); ctx.stroke();
+                    ctx.fillStyle = '#ff0844'; ctx.beginPath(); ctx.arc(12, -f.radius - 12, 4, 0, Math.PI * 2); ctx.fill();
                 } else {
-                    ctx.fillStyle = f.isBomb ? '#1a1a1a' : f.outer;
+                    ctx.fillStyle = f.outer;
                     ctx.beginPath(); ctx.arc(0, 0, f.radius, 0, Math.PI * 2); ctx.fill();
                     ctx.lineWidth = 3.5; ctx.strokeStyle = 'rgba(0,0,0,0.4)'; ctx.stroke();
 
@@ -511,12 +552,9 @@
                         ctx.font = '22px sans-serif';
                         ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
                         ctx.fillText('❄️', 0, 0);
-                    } else if (!f.isBomb) {
+                    } else {
                         ctx.fillStyle = 'rgba(255,255,255,0.25)';
                         ctx.beginPath(); ctx.arc(-f.radius*0.35, -f.radius*0.35, f.radius*0.3, 0, Math.PI*2); ctx.fill();
-                    } else {
-                        ctx.fillStyle = '#ff3366'; ctx.beginPath(); ctx.arc(0, -f.radius*0.65, 7, 0, Math.PI*2); ctx.fill();
-                        ctx.strokeStyle = '#fff'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(0, -f.radius*0.65); ctx.lineTo(12, -f.radius-12); ctx.stroke();
                     }
                 }
                 ctx.restore();
