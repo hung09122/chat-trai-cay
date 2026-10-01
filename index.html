@@ -47,10 +47,9 @@
         }
         canvas {
             display: block;
-            background: radial-gradient(circle, #151c2e 0%, #070a12 100%);
+            background: radial-gradient(circle, #182238 0%, #070a12 100%);
         }
 
-        /* --- MÀN HÌNH CHỜ & MENU CỰC ĐẸP --- */
         .ui-screen {
             position: absolute;
             top: 0;
@@ -242,7 +241,6 @@
 
         <canvas id="gameCanvas" width="400" height="600"></canvas>
 
-        <!-- Màn hình Bắt đầu được thiết kế tinh tế & hiện đại -->
         <div id="start-screen" class="ui-screen">
             <div class="logo-badge">⚔️🍉</div>
             <h2>Fruit Slash Legends</h2>
@@ -258,7 +256,6 @@
             <button class="btn" onclick="startGame()">BẮT ĐẦU CHƠI</button>
         </div>
 
-        <!-- Màn hình Kết thúc trò chơi -->
         <div id="gameover-screen" class="ui-screen" style="display: none;">
             <div class="logo-badge">💥</div>
             <h2>KẾT THÚC TRÒ CHƠI</h2>
@@ -326,6 +323,7 @@
         let fruits = [];
         let halvedFruits = [];
         let particles = [];
+        let splashes = []; // Mảng lưu vết nước trái cây văng trên màn hình
         let sliceTrail = [];
         let spawnTimer = 0;
         
@@ -338,13 +336,13 @@
         let rageEnergy = 0;
 
         const fruitTypes = [
-            { name: 'Watermelon', emoji: '🍉', radius: 34, points: 1 },
-            { name: 'Apple', emoji: '🍎', radius: 27, points: 1 },
-            { name: 'Orange', emoji: '🍊', radius: 29, points: 2 },
-            { name: 'Grape', emoji: '🍇', radius: 25, points: 3 },
-            { name: 'FreezeBanana', emoji: '🍌❄️', radius: 30, isFreeze: true },
-            { name: 'DoublePineapple', emoji: '🍍✨', radius: 31, isDouble: true },
-            { name: 'SuperNova', emoji: '💥🌟', radius: 33, isNova: true },
+            { name: 'Watermelon', emoji: '🍉', radius: 34, points: 1, juiceColor: '#e63946' },
+            { name: 'Apple', emoji: '🍎', radius: 27, points: 1, juiceColor: '#ffb703' },
+            { name: 'Orange', emoji: '🍊', radius: 29, points: 2, juiceColor: '#fb8500' },
+            { name: 'Grape', emoji: '🍇', radius: 25, points: 3, juiceColor: '#7209b7' },
+            { name: 'FreezeBanana', emoji: '🍌❄️', radius: 30, isFreeze: true, juiceColor: '#caf0f8' },
+            { name: 'DoublePineapple', emoji: '🍍✨', radius: 31, isDouble: true, juiceColor: '#ffb703' },
+            { name: 'SuperNova', emoji: '💥🌟', radius: 33, isNova: true, juiceColor: '#4cc9f0' },
             { name: 'Bomb', emoji: '💣', radius: 30, isBomb: true }
         ];
 
@@ -410,6 +408,7 @@
             fruits = [];
             halvedFruits = [];
             particles = [];
+            splashes = [];
             spawnTimer = 0;
             doublePointsTimer = 0;
             freezeTimer = 0;
@@ -432,8 +431,8 @@
                 if (!other.sliced && !other.isBomb) {
                     other.sliced = true;
                     score += (other.points || 1) * 3;
-                    createParticles(other.x, other.y);
-                    createHalvedFruit(other.x, other.y, other.emoji);
+                    createJuiceEffect(other.x, other.y, other.juiceColor || '#ff3366');
+                    createHalvedFruit(other.x, other.y, other.emoji, other.juiceColor || '#ff3366');
                 }
             });
             showCombo("💥 SUPER NOVA ULTIMATE! 💥");
@@ -457,7 +456,7 @@
 
         function updateLivesUI() {
             let hearts = "";
-            for (let i = 0; i < lives; i++) hearts += "❤️️";
+            for (let i = 0; i < lives; i++) hearts += "❤️";
             document.getElementById("lives").innerText = hearts;
         }
 
@@ -483,26 +482,49 @@
             fruits.push({ x, y: canvas.height + 40, vx, vy, gravity: 0.35, ...type, sliced: false });
         }
 
-        function createParticles(x, y) {
-            let color = '#00ffcc';
-            if (currentBlade === 'fire') color = '#ff3366';
-            if (currentBlade === 'plasma') color = '#cc33ff';
+        // --- HIỆU ỨNG CẮT TRÁI CÂY ĐỈNH CAO (GIỐNG FRUIT NINJA) ---
+        function createJuiceEffect(x, y, juiceColor) {
+            // 1. Tạo hạt nước trái cây văng tung tóe
+            let bladeCol = '#00ffcc';
+            if (currentBlade === 'fire') bladeCol = '#ff3366';
+            if (currentBlade === 'plasma') bladeCol = '#cc33ff';
 
-            for (let i = 0; i < 16; i++) {
+            for (let i = 0; i < 22; i++) {
                 particles.push({
                     x, y,
-                    vx: (Math.random() - 0.5) * 11,
-                    vy: (Math.random() - 0.5) * 11,
+                    vx: (Math.random() - 0.5) * 13,
+                    vy: (Math.random() - 0.5) * 13,
                     radius: Math.random() * 5 + 2,
-                    color: Math.random() > 0.4 ? color : ['#ffcc00', '#ffffff'][Math.floor(Math.random()*2)],
-                    alpha: 1
+                    color: Math.random() > 0.3 ? juiceColor : bladeCol,
+                    alpha: 1,
+                    gravity: 0.45
+                });
+            }
+
+            // 2. Tạo giọt nước bám dính trên kính (Splash sẫm màu)
+            for (let i = 0; i < 4; i++) {
+                splashes.push({
+                    x: x + (Math.random() - 0.5) * 45,
+                    y: y + (Math.random() - 0.5) * 45,
+                    radius: Math.random() * 12 + 6,
+                    color: juiceColor,
+                    alpha: 0.7
                 });
             }
         }
 
-        function createHalvedFruit(x, y, emoji) {
-            halvedFruits.push({ x, y, vx: -3.5, vy: -5, gravity: 0.4, rotation: 0, vRot: -0.15, emoji, alpha: 1 });
-            halvedFruits.push({ x, y, vx: 3.5, vy: -5, gravity: 0.4, rotation: 0, vRot: 0.15, emoji, alpha: 1 });
+        function createHalvedFruit(x, y, emoji, juiceColor) {
+            // Tách đôi trái cây văng sang 2 bên kèm hiệu ứng xoay tròn chuẩn vật lý
+            halvedFruits.push({
+                x, y, vx: -4.2, vy: -5.5, gravity: 0.45,
+                rotation: 0, vRot: -0.18, emoji, juiceColor,
+                alpha: 1, side: 'left'
+            });
+            halvedFruits.push({
+                x, y, vx: 4.2, vy: -5.5, gravity: 0.45,
+                rotation: 0, vRot: 0.18, emoji, juiceColor,
+                alpha: 1, side: 'right'
+            });
         }
 
         function checkSlice(x, y) {
@@ -510,7 +532,7 @@
             fruits.forEach(f => {
                 if (!f.sliced) {
                     let dist = Math.hypot(f.x - x, f.y - y);
-                    if (dist < f.radius + 18) {
+                    if (dist < f.radius + 20) {
                         f.sliced = true;
                         slicedCount++;
 
@@ -520,9 +542,9 @@
                             gameOver();
                         } else {
                             playSound('slice');
-                            createParticles(f.x, f.y);
-                            createHalvedFruit(f.x, f.y, f.emoji);
-                            hitStopFrames = 3;
+                            createJuiceEffect(f.x, f.y, f.juiceColor || '#e63946');
+                            createHalvedFruit(f.x, f.y, f.emoji, f.juiceColor || '#e63946');
+                            hitStopFrames = 3; // Khựng lực cực sướng tay
 
                             let pts = f.points || 1;
                             if (doublePointsTimer > 0) pts *= 2;
@@ -582,7 +604,7 @@
             }
 
             let effectText = "";
-            if (freezeTimer > 0) effectText += `❄️️ Đóng băng: ${(freezeTimer/60).toFixed(1)}s  `;
+            if (freezeTimer > 0) effectText += `❄️ Đóng băng: ${(freezeTimer/60).toFixed(1)}s  `;
             if (doublePointsTimer > 0) effectText += `🍍 x2 Điểm: ${(doublePointsTimer/60).toFixed(1)}s  `;
             if (frenzyTimer > 0) effectText += `🔥 FRENZY! `;
             document.getElementById("active-effects").innerText = effectText;
@@ -621,15 +643,19 @@
             for (let i = halvedFruits.length - 1; i >= 0; i--) {
                 let h = halvedFruits[i];
                 h.x += h.vx; h.y += h.vy; h.vy += h.gravity;
-                h.rotation += h.vRot; h.alpha -= 0.025;
+                h.rotation += h.vRot; h.alpha -= 0.02;
                 if (h.alpha <= 0 || h.y > canvas.height + 50) halvedFruits.splice(i, 1);
             }
 
             for (let i = particles.length - 1; i >= 0; i--) {
                 let p = particles[i];
-                p.x += p.vx; p.y += p.vy; p.alpha -= 0.03;
+                p.x += p.vx; p.y += p.vy; p.vy += p.gravity; p.alpha -= 0.025;
                 if (p.alpha <= 0) particles.splice(i, 1);
             }
+
+            // Vết nước trái cây mờ dần theo thời gian
+            splashes.forEach(s => s.alpha -= 0.003);
+            splashes = splashes.filter(s => s.alpha > 0);
 
             sliceTrail.forEach(t => t.alpha -= 0.12);
             sliceTrail = sliceTrail.filter(t => t.alpha > 0);
@@ -650,23 +676,44 @@
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
             }
 
+            // 1. Vẽ vết nước trái cây bám trên nền (Juice Splatters)
+            splashes.forEach(s => {
+                ctx.save();
+                ctx.globalAlpha = s.alpha;
+                ctx.fillStyle = s.color;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            });
+
+            // 2. Vẽ trái cây nguyên vẹn
             fruits.forEach(f => {
                 ctx.font = f.isBomb ? "38px Arial" : "34px Arial";
                 ctx.textAlign = "center"; ctx.textBaseline = "middle";
                 ctx.fillText(f.emoji, f.x, f.y);
             });
 
+            // 3. Vẽ hai nửa trái cây chẻ đôi văng ra có hiệu ứng ruột ửng đỏ/tươi
             halvedFruits.forEach(h => {
                 ctx.save();
                 ctx.globalAlpha = h.alpha;
                 ctx.translate(h.x, h.y);
                 ctx.rotate(h.rotation);
+                
+                // Vẽ hiệu ứng lớp thịt quả bên trong vết cắt
+                ctx.fillStyle = h.juiceColor;
+                ctx.beginPath();
+                ctx.arc(0, 0, 13, 0, Math.PI * 2);
+                ctx.fill();
+
                 ctx.font = "26px Arial";
                 ctx.textAlign = "center"; ctx.textBaseline = "middle";
                 ctx.fillText(h.emoji, 0, 0);
                 ctx.restore();
             });
 
+            // 4. Vẽ hạt bắn tung tóe
             particles.forEach(p => {
                 ctx.save();
                 ctx.globalAlpha = p.alpha;
@@ -677,6 +724,7 @@
                 ctx.restore();
             });
 
+            // 5. Vẽ vệt chém theo loại Kiếm rực rỡ
             if (sliceTrail.length > 1) {
                 let trailColor = "rgba(0, 255, 204, 0.95)";
                 if (currentBlade === 'fire') trailColor = "rgba(255, 51, 102, 0.95)";
